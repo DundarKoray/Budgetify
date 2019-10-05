@@ -1,6 +1,30 @@
 // BUDGET CONTROLLER
 let budgetController = (function() {
-    // Some code
+    
+    let Expense = function(id, description, value) {
+        this.id = id
+        this.description = description;
+        this.value = value;
+    }
+
+    let Income = function(id, description, value) {
+        this.id = id
+        this.description = description;
+        this.value = value;
+    }
+
+
+
+    var data = {
+        allItems: {
+            exp: [],
+            inc: []
+        },
+        totals: {
+            exp: 0,
+            inc: 0
+        }
+    }
 
     
 })()
@@ -34,8 +58,21 @@ let UIController = (function() {
 
 // GLOBAL APP  CONTROLLER
 let controller = (function(budgetCtrl, UICtrl) {
+
+    let setupEventListeners = function () {
+        let DOM = UICtrl.getDOMstrings()
+
+        document.querySelector(DOM.inputButton).addEventListener('click', ctrlAddItem)
+
+        document.addEventListener('keypress', function(event) {
+            // console.log(event)
     
-    let DOM = UICtrl.getDOMstrings()
+            event.keyCode === 13 ? ctrlAddItem() : null
+            
+        })
+    }
+    
+    
     
     let ctrlAddItem = function () {
 
@@ -52,12 +89,14 @@ let controller = (function(budgetCtrl, UICtrl) {
         console.log('it works')
     }   
 
-    document.querySelector(DOM.inputButton).addEventListener('click', ctrlAddItem)
+    return {
+        init: function(){
+            console.log('Application has started')
+            setupEventListeners()
+        }
+    }
 
-    document.addEventListener('keypress', function(event) {
-        // console.log(event)
-
-        event.keyCode === 13 ? ctrlAddItem() : null
-        
-    })
 })(budgetController, UIController)
+
+
+controller.init()
